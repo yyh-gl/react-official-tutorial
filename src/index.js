@@ -10,22 +10,31 @@ class Square extends React.Component {
     };
   }
 
-  putStone() {
-    this.setState({value: 'X'})
-  }
-
   render() {
     return (
-      <button className="square" onClick={() => this.putStone()}>
-        {this.state.value}
+      <button className="square" onClick={() => this.props.onClick()}>
+        {this.props.value}
       </button>
     );
   }
 }
 
 class Board extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      squares: Array(9).fill(null),
+    };
+  }
+
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares: squares});
+  }
+
   renderSquare(i) {
-    return <Square value={i} />;
+    return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />; //squareの対応する要素を渡す,onClickを追加
   }
 
   render() {
